@@ -21,9 +21,13 @@ let libroSchema = new Schema({
         type: Number,
         required: [true, 'Ingresa el numero de paginas']
     },
-    Precio: {
+    precio: {
         type: Number,
         required: [true, 'Por favor ingresa el precio']
+    },
+    disponible: {
+        type: Boolean,
+        default: true
     }
 
 });
