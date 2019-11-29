@@ -23,5 +23,16 @@ let prestamoSchema = new Schema({
     },
     fechaDevolucion: {
         type: Date
+    },
+    estado: {
+        type: Boolean,
+        default: true
     }
 });
+
+prestamoSchema.plugin(uniqueValidator, {
+    message: '{PATH} Debe ser único y diferente'
+});
+
+//crea una coleccion
+module.exports = mongoose.model('Prestamo', prestamoSchema);
