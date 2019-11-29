@@ -1,9 +1,10 @@
 const express = require('express');
 const _ = require('underscore');
+const { verificaToken } = require('../middlewares/autenticacion');
 const Prestamo = require('../models/prestamo'); //subir nivel
 const app = express();
 
-app.post('/prestamo', (req, res) => {
+app.post('/prestamo', [verificaToken], (req, res) => {
     let body = req.body;
     let prestamo = new Prestamo({
         codigoLibro: body.codigoLibro,
@@ -25,7 +26,7 @@ app.post('/prestamo', (req, res) => {
     });
 });
 
-app.get('/prestamo', (req, res) => {
+app.get('/prestamo', [verificaToken], (req, res) => {
     Prestamo.find({ estado: true })
         .exec((err, prestamos) => {
             if (err) {
@@ -42,7 +43,7 @@ app.get('/prestamo', (req, res) => {
         });
 });
 
-app.put('/prestamo/:id', (req, res) => {
+app.put('/prestamo/:id', [verificaToken], (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['fechaDevolucion', 'estado']);
     Prestamo.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, preDB) => {
