@@ -12,7 +12,7 @@ app.post('/prestamo', [verificaToken], (req, res) => {
         fechaDevolucion: body.fechaDevolucion
     });
 
-    Prestamo.save((err, preDB) => {
+    prestamo.save((err, preDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -58,6 +58,23 @@ app.put('/prestamo/:id', [verificaToken], (req, res) => {
             preDB
         });
 
+    });
+});
+
+app.delete('/prestamo/:id', [verificaToken], (req, res) => {
+    let id = req.params.id;
+
+    Prestamo.findByIdAndUpdate(id, { estado: false }, { new: true, runValidators: true, context: 'query' }, (err, resp) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        return res.status(200).json({
+            ok: true,
+            resp
+        });
     });
 });
 

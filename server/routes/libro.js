@@ -15,7 +15,7 @@ app.post('/libro', [verificaToken], (req, res) => {
         precio: body.precio
     });
 
-    Libro.save((err, libDB) => {
+    libro.save((err, libDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -31,7 +31,7 @@ app.post('/libro', [verificaToken], (req, res) => {
 
 app.put('/libro/:id', [verificaToken], (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ['nombre', 'editorial', 'autor', 'noPag', 'precio']);
+    let body = _.pick(req.body, ['nombre', 'editorial', 'autor', 'noPag', 'precio', 'disponible']);
     Libro.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, libDB) => {
         if (err) {
             return res.status(400).json({

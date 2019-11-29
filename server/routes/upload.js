@@ -42,9 +42,7 @@ app.put('/upload/:ruta/:id', [verificaToken], (req, res) => {
         }
     });
     switch (ruta) {
-        case 'producto':
-            imagenProducto(id, res, nombre);
-            break;
+
         case 'usuario':
             imagenUsuario(id, res, nombre);
             break;
