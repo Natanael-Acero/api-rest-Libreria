@@ -24,10 +24,6 @@ let usuarioSchema = new Schema({
         type: String,
         required: [true, 'Ingrese una direccion']
     },
-    img: {
-        type: String,
-        required: [true, 'Por favor ingresa la imagen']
-    },
     estado: {
         type: Boolean,
         default: true

@@ -58,7 +58,7 @@ app.put('/upload/:ruta/:id', [verificaToken], (req, res) => {
 });
 
 //RETORNA AL USUARIO CON ID
-//ayuda a actualizar el nombre de la imagen en la bd //valida que la consulta este bien echa
+//ayuda a actualizar el nombre de la imagen en la bd //valida que la consulta este bien hecha
 function imagenUsuario(id, res, nombreImagen) {
     Usuario.findById(id, (err, usr) => {
         if (err) {
