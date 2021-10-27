@@ -4,7 +4,7 @@ const { verificaToken } = require('../middlewares/autenticacion');
 const Prestamo = require('../models/prestamo'); //subir nivel
 const app = express();
 
-app.post('/prestamo', [verificaToken], (req, res) => {
+app.post('/prestamo', (req, res) => {
     let body = req.body;
     let prestamo = new Prestamo({
         codigoLibro: body.codigoLibro,
@@ -26,7 +26,7 @@ app.post('/prestamo', [verificaToken], (req, res) => {
     });
 });
 
-app.get('/prestamo', [verificaToken], (req, res) => {
+app.get('/prestamo', (req, res) => {
     Prestamo.find({}).populate('codigoUsuario').populate('codigoLibro')
         .exec((err, prestamos) => {
             if (err) {
@@ -42,7 +42,7 @@ app.get('/prestamo', [verificaToken], (req, res) => {
             });
         });
 });
-app.get('/prestamo/:id', [verificaToken], (req, res) => {
+app.get('/prestamo/:id', (req, res) => {
     let id = req.params.id;
     Prestamo.find({ _id: id }).populate('codigoUsuario').populate('codigoLibro')
         .exec((err, prestamos) => {
@@ -60,7 +60,7 @@ app.get('/prestamo/:id', [verificaToken], (req, res) => {
         });
 });
 
-app.put('/prestamo/:id', [verificaToken], (req, res) => {
+app.put('/prestamo/:id', (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['fechaDevolucion', 'estado']);
     Prestamo.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, preDB) => {
@@ -78,7 +78,7 @@ app.put('/prestamo/:id', [verificaToken], (req, res) => {
     });
 });
 
-app.delete('/prestamo/:id', [verificaToken], (req, res) => {
+app.delete('/prestamo/:id', (req, res) => {
     let id = req.params.id;
 
     Prestamo.findByIdAndUpdate(id, { estado: true }, { new: true, runValidators: true, context: 'query' }, (err, resp) => {
@@ -94,7 +94,7 @@ app.delete('/prestamo/:id', [verificaToken], (req, res) => {
         });
     });
 });
-app.delete('/deletePrestamo/:id', [verificaToken], (req, res) => {
+app.delete('/deletePrestamo/:id', (req, res) => {
     let id = req.params.id;
 
     Prestamo.findOneAndDelete({ _id: id }, (err, resp) => {
