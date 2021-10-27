@@ -1,11 +1,10 @@
 const express = require('express');
 const _ = require('underscore');
-const { verificaToken } = require('../middlewares/autenticacion');
 const Libro = require('../models/libro');
 const app = express();
 
 
-app.post('/libro', [verificaToken], (req, res) => {
+app.post('/libro', (req, res) => {
     let body = req.body;
     let libro = new Libro({
         nombre: body.nombre,
@@ -29,7 +28,7 @@ app.post('/libro', [verificaToken], (req, res) => {
     });
 });
 
-app.put('/libro/:id', [verificaToken], (req, res) => {
+app.put('/libro/:id', (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'editorial', 'autor', 'noPag', 'precio', 'disponible']);
     Libro.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, libDB) => {
@@ -47,7 +46,7 @@ app.put('/libro/:id', [verificaToken], (req, res) => {
     });
 });
 
-app.get('/libro', [verificaToken], (req, res) => {
+app.get('/libro', (req, res) => {
     Libro.find({ disponible: true })
         .exec((err, libros) => {
             if (err) {
@@ -63,7 +62,7 @@ app.get('/libro', [verificaToken], (req, res) => {
             });
         });
 });
-app.get('/libro/:id', [verificaToken], (req, res) => {
+app.get('/libro/:id', (req, res) => {
     let id = req.params.id;
     Libro.find({ disponible: true, _id: id })
         .exec((err, libros) => {
@@ -82,7 +81,7 @@ app.get('/libro/:id', [verificaToken], (req, res) => {
 });
 
 
-app.delete('/libro/:id', [verificaToken], (req, res) => {
+app.delete('/libro/:id', (req, res) => {
     let id = req.params.id;
     Libro.findByIdAndUpdate(id, { disponible: false }, { new: true, runValidators: true, context: 'query' }, (err, resp) => {
         if (err) {
