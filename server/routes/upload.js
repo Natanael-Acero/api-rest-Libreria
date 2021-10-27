@@ -12,7 +12,7 @@ const usuario = require('./libro');
 const Usuario = require('../models/usuario');
 app.use(fileUpload());
 
-app.put('/upload/:ruta/:id', [verificaToken], (req, res) => {
+app.put('/upload/:ruta/:id', (req, res) => {
     let id = req.params.id;
     let ruta = req.params.ruta;
     let archivo = req.files.archivo;
