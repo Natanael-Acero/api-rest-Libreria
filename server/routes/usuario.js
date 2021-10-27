@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-app.get('/usuario', [verificaToken], (req, res) => {
+app.get('/usuario',  (req, res) => {
     Usuario.find({ estado: true }) //select * from usuario where estado=true
         //solo aceptan valores numericos
         .exec((err, usuarios) => { //ejecuta la funcion
@@ -25,7 +25,7 @@ app.get('/usuario', [verificaToken], (req, res) => {
             });
         });
 });
-app.get('/usuario/:id', [verificaToken], (req, res) => {
+app.get('/usuario/:id', (req, res) => {
     let id = req.params.id;
     Usuario.find({ estado: true, _id: id }) //select * from usuario where estado=true
         //solo aceptan valores numericos
@@ -45,7 +45,7 @@ app.get('/usuario/:id', [verificaToken], (req, res) => {
         });
 });
 
-app.post('/usuario', [verificaToken], (req, res) => {
+app.post('/usuario', (req, res) => {
     let body = req.body;
     let usuario = new Usuario({
         //para poder mandar los datos a la coleccion
@@ -70,7 +70,7 @@ app.post('/usuario', [verificaToken], (req, res) => {
     });
 });
 
-app.put('/usuario/:id', [verificaToken], (req, res) => {
+app.put('/usuario/:id', (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'estado', 'direccion', 'img']); //FILTRAR del body, on el pick seleccionar los campos que interesan del body 
     //id 'su coleccion, new -> si no existe lo inserta, runVali-> sirve para validar todas las condiciones del modelo 
@@ -89,7 +89,7 @@ app.put('/usuario/:id', [verificaToken], (req, res) => {
     });
 });
 
-app.delete('/usuario/:id', [verificaToken], (req, res) => {
+app.delete('/usuario/:id', (req, res) => {
     let id = req.params.id;
 
     Usuario.findByIdAndUpdate(id, { estado: false }, { new: true, runValidators: true, context: 'query' }, (err, resp) => {
